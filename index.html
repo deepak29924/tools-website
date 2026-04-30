@@ -1,0 +1,231 @@
+here<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Utility Tools Hub</title>
+
+<style>
+:root{
+  --bg:#f6fff8;
+  --card:#ffffff;
+  --text:#111;
+  --btn:linear-gradient(45deg,#00c853,#69f0ae);
+  --border:#d0f0d8;
+}
+body.dark{
+  --bg:#000;
+  --card:#1a1a1a;
+  --text:#fff;
+  --btn:#00e676;
+  --border:#333;
+}
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.header{text-align:center;padding:15px;}
+.title{font-size:26px;font-weight:bold;}
+
+.tabs{display:flex;justify-content:center;gap:10px;margin-top:10px;}
+.tab{padding:8px 15px;background:#e8f5e9;border-radius:20px;cursor:pointer;}
+body.dark .tab{background:#222;}
+.tab.active{background:#00c853;color:white;}
+
+.search{margin-top:10px;width:80%;padding:10px;border-radius:8px;border:1px solid var(--border);}
+
+.container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:12px;
+}
+
+input,select,button{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:8px;
+  border:1px solid var(--border);
+}
+
+button{background:var(--btn);color:white;border:none;}
+.result{margin-top:10px;font-weight:bold;}
+small{opacity:0.7;}
+
+/* Footer sections */
+.section{
+  padding:30px;
+  border-top:1px solid var(--border);
+}
+.footer{
+  text-align:center;
+  padding:15px;
+}
+a{color:#00c853;text-decoration:none;margin:0 10px;}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<div class="title">⚡ Pro Utility Tools Hub</div>
+
+<div class="tabs">
+<div class="tab active" onclick="filter('all')">All</div>
+<div class="tab" onclick="filter('finance')">Finance</div>
+<div class="tab" onclick="filter('health')">Health</div>
+<div class="tab" onclick="filter('utility')">Utility</div>
+</div>
+
+<input class="search" placeholder="Search tools..." oninput="searchTool(this.value)">
+<button onclick="toggleMode()">🌙 Mode</button>
+</div>
+
+<div class="container">
+
+<!-- Age -->
+<div class="card" data-cat="utility">
+<h3>🎂 Age Calculator</h3>
+<small>Select your Date of Birth</small>
+<input type="date" id="dob">
+<button onclick="age()">Calculate</button>
+<div class="result" id="ageRes"></div>
+</div>
+
+<!-- EMI -->
+<div class="card" data-cat="finance">
+<h3>💰 EMI Calculator</h3>
+<small>Enter loan details</small>
+<input id="loan" placeholder="Loan Amount (₹)">
+<input id="rate" placeholder="Interest Rate (%)">
+<input id="time" placeholder="Time (Months)">
+<button onclick="emi()">Calculate</button>
+<div class="result" id="emiRes"></div>
+</div>
+
+<!-- Currency -->
+<div class="card" data-cat="finance">
+<h3>💱 Currency Converter</h3>
+<input id="amount" placeholder="Enter Amount">
+<select id="type">
+<option value="inr_usd">INR → USD</option>
+<option value="usd_inr">USD → INR</option>
+</select>
+<button onclick="convert()">Convert</button>
+<div class="result" id="usdRes"></div>
+</div>
+
+<!-- Percentage -->
+<div class="card" data-cat="utility">
+<h3>📊 Percentage</h3>
+<input id="total" placeholder="Total Value">
+<input id="value" placeholder="Value">
+<button onclick="percent()">Calculate</button>
+<div class="result" id="perRes"></div>
+</div>
+
+<!-- SI -->
+<div class="card" data-cat="finance">
+<h3>🏦 Simple Interest</h3>
+<input id="p" placeholder="Principal (₹)">
+<input id="r" placeholder="Rate (%)">
+<input id="t" placeholder="Time (Years)">
+<button onclick="si()">Calculate</button>
+<div class="result" id="siRes"></div>
+</div>
+
+<!-- BMI -->
+<div class="card" data-cat="health">
+<h3>⚖️ BMI</h3>
+<input id="weight" placeholder="Weight (kg)">
+<input id="height" placeholder="Height (meter)">
+<button onclick="bmi()">Calculate</button>
+<div class="result" id="bmiRes"></div>
+</div>
+
+<!-- Discount -->
+<div class="card" data-cat="finance">
+<h3>🏷️ Discount</h3>
+<input id="price" placeholder="Original Price (₹)">
+<input id="disc" placeholder="Discount (%)">
+<button onclick="discount()">Calculate</button>
+<div class="result" id="disRes"></div>
+</div>
+
+<!-- Random -->
+<div class="card" data-cat="utility">
+<h3>🎲 Random</h3>
+<button onclick="random()">Generate</button>
+<div class="result" id="randRes"></div>
+</div>
+
+</div>
+
+<!-- About -->
+<div id="about" class="section">
+<h2>About Us</h2>
+<p>This website provides free online tools like Age Calculator, EMI Calculator, Currency Converter and more.</p>
+</div>
+
+<!-- Contact -->
+<div id="contact" class="section">
+<h2>Contact Us</h2>
+<p>Email: your@email.com</p>
+</div>
+
+<!-- Privacy -->
+<div id="privacy" class="section">
+<h2>Privacy Policy</h2>
+<p>We respect your privacy. Google AdSense may use cookies to show ads.</p>
+</div>
+
+<div class="footer">
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+<a href="#privacy">Privacy</a>
+</div>
+
+<script>
+function toggleMode(){document.body.classList.toggle("dark");}
+
+function filter(cat){
+document.querySelectorAll(".card").forEach(c=>{
+c.style.display=(cat=="all"||c.dataset.cat==cat)?"block":"none";
+});
+}
+
+function searchTool(val){
+document.querySelectorAll(".card").forEach(c=>{
+c.style.display=c.innerText.toLowerCase().includes(val.toLowerCase())?"block":"none";
+});
+}
+
+function age(){ageRes.innerText=(new Date().getFullYear()-new Date(dob.value).getFullYear())+" Years";}
+function emi(){
+let P=loan.value,r=rate.value/12/100,n=time.value;
+emiRes.innerText="₹ "+((P*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1)).toFixed(2);
+}
+function convert(){
+let amt=parseFloat(amount.value),type=document.getElementById("type").value;
+if(!amt) return usdRes.innerText="Enter amount";
+usdRes.innerText=type==="inr_usd"?"$ "+(amt/83).toFixed(2):"₹ "+(amt*83).toFixed(2);
+}
+function percent(){perRes.innerText=((value.value/total.value)*100).toFixed(2)+"%";}
+function si(){siRes.innerText="₹ "+(p.value*r.value*t.value)/100;}
+function bmi(){bmiRes.innerText=(weight.value/(height.value*height.value)).toFixed(2);}
+function discount(){disRes.innerText="₹ "+(price.value-(price.value*disc.value/100));}
+function random(){randRes.innerText=Math.floor(Math.random()*100);}
+</script>
+
+</body>
+  </html>
